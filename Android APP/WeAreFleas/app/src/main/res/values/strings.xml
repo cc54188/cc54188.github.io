@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">跳蚤小拍賣</string>
+    <string name="str_search">搜尋</string>
+    <string name="str_All">全部</string>
+    <string name="str_login" translatable="false">登入</string>
+</resources>
