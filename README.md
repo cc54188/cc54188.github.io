@@ -8,3 +8,4 @@
 - 1.[Running Loser](https://github.com/cc54188/cc54188.github.io/tree/main/Computer%20Game/Running%20Loser)(NetBeans遊戲)
 
 ### 筆記
+- [連結](https://github.com/cc54188/cc54188.github.io/tree/main/Note)
