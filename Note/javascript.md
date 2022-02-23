@@ -80,3 +80,32 @@ for(var i = 0; i < friends.length; i++) {
     document.write("<br/>");
 }
 ```
+```javascript
+// 製作一個問答程式
+
+var questions = [
+    {
+        prompt:"香蕉是甚麼顏色?\n(a)紅色(b)綠色(c)黃色",
+        answer:"c"
+    },
+    {
+        prompt:"草莓是甚麼顏色?\n(a)紅色(b)紫色(c)黃色",
+        answer:"a"
+    },
+    {
+        prompt:"1公尺等於幾公分?\n(a)1(b)10(c)100",
+        answer:"c"
+    }
+]
+var score = 0;
+for(var i = 0; i < questions.length; i++) {
+    var input = prompt(questions[i].prompt);
+    if(input == questions[i].answer){
+        score++;
+        alert("答對了");
+    } else {
+        alert("答錯了");
+    }
+}
+alert("總共答對了" + score + "題");
+```
