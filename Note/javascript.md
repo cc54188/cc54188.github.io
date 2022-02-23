@@ -109,3 +109,22 @@ for(var i = 0; i < questions.length; i++) {
 }
 alert("總共答對了" + score + "題");
 ```
+```javascript
+// 2維陣列，巢狀迴圈
+
+var number = [
+    [1,2,3], 
+    [4,5,6], 
+    [7,8,9], 
+    [0]
+];
+
+// document.write(number[3][0]) ;
+
+for(var i = 0; i < 4; i++) {
+    for(var j = 0; j < number[i].length; j++) {
+        document.write(number[i][j]);
+    }
+    document.write("<br/>");
+}
+```
