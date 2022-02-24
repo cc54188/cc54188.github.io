@@ -274,10 +274,23 @@ function handle_click(element){ // 自己取名叫element
 }
 ```
 2.寫在javascript
-var btn = document.getElementById("btn");
-btn.addEventListener("click", function(){ // 對此元素監聽(觸發事件,要做啥)
-    alert("叫你按就按阿!?");
-    this.innerText = "按屁"
+```javascript
+var btn = document.getElementById("btn"); 
+
+btn.addEventListener("click", function(){ 
+    // 對此元素監聽(觸發事件,要做啥) 
+    //alert("叫你按就按阿!?"); 
+    this.innerText = "按屁"; 
+    this.style.color = "red";
 })
 
 var img = document.getElementById("img");
+img.addEventListener("mouseover", function(){ // 滑鼠滑入
+    this.src = "bmi履歷.png";  // 滑鼠滑過變成這張
+})
+
+img.addEventListener("mouseout", function(){ // 滑鼠滑出
+    this.src = "bullet1.png";
+})
+// 監聽方法寫在html前面都要加on，例:onclick，onmouseover
+```
