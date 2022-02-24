@@ -274,4 +274,10 @@ function handle_click(element){ // 自己取名叫element
 }
 ```
 2.寫在javascript
+var btn = document.getElementById("btn");
+btn.addEventListener("click", function(){ // 對此元素監聽(觸發事件,要做啥)
+    alert("叫你按就按阿!?");
+    this.innerText = "按屁"
+})
 
+var img = document.getElementById("img");
