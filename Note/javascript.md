@@ -255,3 +255,23 @@ class Phone {
 var phone1 = new Phone("123", 2020, false);
 document.write(phone1.phone_age());
 ```
+#### event listener 事件監聽器
+1.直接寫在html裡面
+```html
+<body>
+    <img id="img" src="bullet1.png" width="300px" />
+    <button id="btn" onclick="handle_click(this)">按我</button>
+    <!-- this:被按下去的那個元素(button) -->
+    <!-- 外部引入 -->
+    <script src="script.js"></script>
+</body>
+```
+```javascript
+function handle_click(element){ // 自己取名叫element
+    alert("叫你按就按阿!?")
+    element.innerText = "按屁阿"; // 改button上的字
+    element.style.color = "red";
+}
+```
+2.寫在javascript
+
