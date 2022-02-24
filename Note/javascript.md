@@ -294,3 +294,55 @@ img.addEventListener("mouseout", function(){ // 滑鼠滑出
 })
 // 監聽方法寫在html前面都要加on，例:onclick，onmouseover
 ```
+#### 簡易部落格
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>練習的網頁</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <!-- <img id="img" src="bullet1.png" width="300px" />
+        <button id="btn" onclick="handle_click(this)">按我</button> -->
+        <!-- this:被按下去的那個元素(button) -->
+        <h1>練習的部落格</h1>
+        <p>標題</p>
+        <input type="text" id="title"/>
+        <p>內容</p>
+        <textarea id="content" rows="8"></textarea>
+        <br/>
+        <button id="btn">發布</button>
+        <div id="list">
+            <!-- <div class="article">
+                <h2>今天天氣真好</h2>
+                <p>今天雖然天氣很好，但是早上一出門就踩到狗屎</p>
+            </div> -->
+        </div>
+        <!-- 外部引入 -->
+        <script src="script.js"></script>
+    </body>
+</html>
+```
+```javascript
+// 部落格
+
+var title = document.getElementById("title");
+var content = document.getElementById("content");
+var btn = document.getElementById("btn");
+var list = document.getElementById("list");
+
+btn.addEventListener("click", function(){
+    //console.log(title.value);
+    // 模板
+    list.innerHTML = list.innerHTML + ` 
+    <div class="article">
+        <h2>${title.value}</h2>
+        <p>${content.value}</p>
+    </div>
+    `;
+    title.value = "";
+    content.value = "";
+});
+```
