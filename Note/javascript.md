@@ -1,3 +1,114 @@
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>js練習網頁</title>
+        <link rel="stylesheet" href="styleJs.css">
+    </head>
+    <body>
+        <!-- <script>
+            // 在html標籤裡寫字
+            document.write("<h1>兔寶可愛</h1>")
+        </script> -->
+        <!-- 外部引入 -->
+        <script src="script.js"></script>
+    </body>
+</html>
+```
+```javascript
+// 資料型態&變數
+// 變數只能是英文大小寫，數字，$或是_的組合
+// 開頭不能是數字
+
+var myName = "帥哥";  // 字串 ""
+var my_age = 36;  // 數字
+var is_male = true;  // 布林值 true & false
+
+document.write("<h1>" + myName + "</h1>");
+myName = true; // 可以改型態
+document.write(myName);
+```
+```javascript
+// 如何使用字串，字串用法
+var phrase = "hello Tim"; //想在字串內+"，要先+斜線
+// 空白也算字串長度
+//.charAt(0) -> h
+//indexOf("h") -> 0 回傳最前面的h的位置
+//.substring(2, 5) -> 取2~5位置
+document.write(phrase.toUpperCase());
+```
+```javascript
+// 如何使用數字，數字的用法
+var number = -16;
+//Math方法
+//abs: 絕對值
+//round: 四捨五入
+//pow(2, 3) 2的3次方=8
+//sqrt(64) 開根號=8
+//random()0~1隨機一個數
+document.write(Math.round(Math.random() * 10));
+```
+```javascript
+// 製作一個基本的計算機
+var num1 = prompt("請輸入數字1");
+var num2 = prompt("請輸入數字2");
+// document.write()預設為字串
+num1 = parseFloat(num1);  // 轉成浮點數
+num2 = parseFloat(num2);
+document.write(num1 + num2);
+```
+```javascript
+// array 陣列
+var scores = [80, 60, 20, 30, 10];
+var friends = ["小黑", 20, true]; // 陣列可放不同資料型態
+var score1 = 80;
+var score2 = 60;
+var score3 = 20;
+var score4 = 30;
+var score5 = 10;
+document.write(friends);
+```
+```javascript
+// funcrion 函式
+// function hello(name, age){  // 定義
+//     document.write("您好" + name + "你今年" + age + "歲");
+// }
+// hello("小白", 36);  // 呼叫
+
+function add(num1, num2) {
+    //document.write(num1 + num2);
+    return num1 + num2;
+}
+document.write(add(3, 5));
+```
+```javascript
+// if 判斷
+
+// var score = 50;
+// if(score == 100) {
+//     document.write("我就給你1000元");
+// } else if(score >= 80){
+//     document.write("我就給你500");
+// } else if(score >= 60) {
+//     document.write("我就給你100元");
+// } else {
+//     document.write("你就給我300元");
+// }
+
+// 如果 你考100分 或 今天沒有下雨
+//     我給你1000元
+// 否則
+//     你給我100元
+// var score = 90;
+// var rainy = false;
+// if(score == 100 || !rainy) {
+//     document.write("我給你1000元");
+// } else {
+//     document.write("你給我100元");
+// }
+```
+
 ```javascript
 // 物件 object
 // key(鍵) value(值)
