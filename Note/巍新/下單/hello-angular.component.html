@@ -1,0 +1,14 @@
+<p>{{title}}</p>
+<div *ngFor="let lunch of lunchList">
+  商品: {{lunch.name}}, 價格: {{lunch.price}}, 數量: {{lunch.amount}}
+  <hr>
+</div>
+<select [(ngModel)]="selectedLunch" (ngModelChange) = "changeSelectedLunch($event)">
+  <option *ngFor="let lunch of lunchList" [ngValue]="lunch">
+    {{lunch.name}}
+  </option>
+</select>
+<div>
+  <input type="number" #box value="0" placeholder="請輸入購買數量">
+  <button (click)="buyLunch(box.value)">購買</button>
+</div>
