@@ -6,8 +6,11 @@ import java.util.List;
 
 public interface AtmService {
 
-    public List<Atm> getByUserName(String userName);
+    public List<Atm> getByremitterIdno(String remitterIdno);
     public void saveAtm(Atm[] atms);
     public void delete(Long id);
+
+    public List<Atm> getAll();
+
 }
 

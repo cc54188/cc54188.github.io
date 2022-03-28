@@ -10,65 +10,133 @@ import java.util.Date;
 @Table(name = "Atm")
 public class Atm {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    // 交易類型                (我加的)
-    @Column(name = "type")
-    private String type;
-    //使用者名稱               (不知道FEP規格，想稍作限制)
-    @Column(name = "userName", length = 6)
-    private String userName;
-    //電話號碼
-    @Column(name = "phoneNumber")
-    private String phoneNumber;
-    //身分證
-    @Column(name = "userId")
-    private String userId;
-    // 使用者帳號               (建議改long，可能不用unique)
-    @Column(name = "userAccount")
-    private long userAccount;
-    //選擇是否有摺 無摺
-    @Column(name = "passBook")
-    private boolean passBook;
-    //操作台幣金額
-    @Column(name = "ntdAount" , length = 14)
-    private int ntdAount;
-    //備註
-    @Column(name = "content",length = 16)
-    private String content;
-    //選擇是否為本人帳號
-    @Column(name = "saveMySelf")
-    private boolean saveMySelf;
-    //創建時間
-    @CreationTimestamp  //針對時間或日期創建默認值
-    @Temporal(TemporalType.DATE) //只要日期
-    @Column(nullable = false,updatable = false) //不能為空且不能更新
-    private Date CreatTime;
-    // 收款銀行               ------(下面都我加的)------
-    @Column(name = "inBank")
-    private String inBank;
-    // 收款分行
-    @Column(name = "branch")
-    private String branch;
-    // 收款人戶名               (長度不知道FEP，想稍作限制)
-    @Column(name = "payeeName", length = 6)
+
+    // 身分證
+    @Column(name = "idno")
+    private String idno;
+
+    // 手機
+    @Column(name = "phone")
+    private String phone;
+
+    //有摺
+    @Column(name = "hasPassbook")
+    private boolean hasPassbook;
+
+    //本人帳戶
+    @Column(name = "isSelfAccount")
+    private boolean isSelfAccount;
+
+    //是否為現金 or 轉帳
+    @Column(name = "isCash")
+    private boolean isCash;
+
+    //轉帳/匯款/存款/提款 金額
+    @Column(name = "money")
+    private long money;
+
+    //臨櫃交易人姓名 (存提款)(無摺-非本人)
+    @Column(name = "counterTrader")
+    private String counterTrader;
+
+    //臨櫃交易人身分證號 (存提款)(無摺-非本人)
+    @Column(name = "counterTraderId")
+    private String counterTraderId;
+
+    //臨櫃交易人聯絡電話 (存提款)(無摺-非本人)
+    @Column(name = "counterTraderPhone")
+    private String counterTraderPhone;
+
+    //代理人姓名 (匯款)(無摺-非本人)
+    @Column(name = "agentTrader")
+    private String agentTrader;
+
+    //代理人身分證號 (匯款)(無摺-非本人)
+    @Column(name = "agentTraderId")
+    private String agentTraderId;
+
+    //代理人聯絡電話 (匯款)(無摺-非本人)
+    @Column(name = "agentTraderPhone")
+    private String agentTraderPhone;
+
+    //存入帳號 (Deprecated)
+    @Column(name = "bankAccount")
+    private String bankAccount;
+
+    //轉出帳號
+    @Column(name = "depositAccount")
+    private String depositAccount;
+
+    //存入帳號
+    @Column(name = "withdrawAccount")
+    private String withdrawAccount;
+
+    //收款銀行
+    @Column(name = "withdrawBank")
+    private String withdrawBank;
+
+    //收款分行
+    @Column(name = "withdrawBankBranch")
+    private String withdrawBankBranch;
+
+    //存摺備註 匯款附言
+    @Column(name = "memo")
+    private String memo;
+
+    //本行/他行
+    @Column(name = "isOwnedBank")
+    private boolean isOwnedBank;
+
+    //轉出帳號 扣款帳號
+    @Column(name = "remitterAccount")
+    private String remitterAccount;
+
+    //轉入&收款帳號
+    @Column(name = "payeeAccount")
+    private String payeeAccount;
+
+    //收款戶名
+    @Column(name = "payeeName")
     private String payeeName;
-    // 收款人帳號
-    @Column(name = "payeeAccount", length = 16)
-    private long payeeAccount;
-    // 是否替人轉帳，匯款
-    @Column(name = "isReplace")
-    private boolean isReplace;
-    // 代理人姓名
-    @Column(name = "replaceName")
-    private String replaceName;
-    // 代理人id
-    @Column(name = "replaceId")
-    private String replaceId;
-    // 代理人電話
-    @Column(name = "replacePhoneNumber")
-    private String replacePhoneNumber;
+
+    //收款銀行ID
+    @Column(name = "payeeBankId")
+    private String payeeBankId;
+
+    //匯款方式 1: 存摺扣款匯款, 2: 現金匯款
+    @Column(name = "transactionType")
+    private long transactionType;
+
+    //匯款人姓名
+    @Column(name = "remitterName")
+    private String remitterName;
+
+    //匯款人身分證字號
+    @Column(name = "remitterIdno")
+    private String remitterIdno;
+
+    //匯款人電話
+    @Column(name = "remitterPhone")
+    private String remitterPhone;
+
+    @Column(name = "isAgent")
+    private boolean isAgent;
+
+    //代理人姓名
+    @Column(name = "agentName")
+    private String agentName;
+
+    //代理人身分證字號
+    @Column(name = "agentIdno")
+    private String agentIdno;
+
+    //代理人電話
+    @Column(name = "agentPhone")
+    private String agentPhone;
 
     public long getId() {
         return id;
@@ -78,92 +146,172 @@ public class Atm {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getIdno() {
+        return idno;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setIdno(String idno) {
+        this.idno = idno;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public boolean isHasPassbook() {
+        return hasPassbook;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setHasPassbook(boolean hasPassbook) {
+        this.hasPassbook = hasPassbook;
     }
 
-    public String getUserId() {
-        return userId;
+    public boolean isIsSelfAccount() {
+        return isSelfAccount;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setIsSelfAccount(boolean isSelfAccount) {
+        this.isSelfAccount = isSelfAccount;
     }
 
-    public long getUserAccount() {
-        return userAccount;
+    public boolean isIsCash() {
+        return isCash;
     }
 
-    public void setUserAccount(long userAccount) {
-        this.userAccount = userAccount;
+    public void setIsCash(boolean isCash) {
+        this.isCash = isCash;
     }
 
-    public boolean isPassBook() {
-        return passBook;
+    public long getMoney() {
+        return money;
     }
 
-    public void setPassBook(boolean passBook) {
-        this.passBook = passBook;
+    public void setMoney(long money) {
+        this.money = money;
     }
 
-    public int getNtdAount() {
-        return ntdAount;
+    public String getCounterTrader() {
+        return counterTrader;
     }
 
-    public void setNtdAount(int ntdAount) {
-        this.ntdAount = ntdAount;
+    public void setCounterTrader(String counterTrader) {
+        this.counterTrader = counterTrader;
     }
 
-    public String getContent() {
-        return content;
+    public String getCounterTraderId() {
+        return counterTraderId;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setCounterTraderId(String counterTraderId) {
+        this.counterTraderId = counterTraderId;
     }
 
-    public boolean isSaveMySelf() {
-        return saveMySelf;
+    public String getCounterTraderPhone() {
+        return counterTraderPhone;
     }
 
-    public void setSaveMySelf(boolean saveMySelf) {
-        this.saveMySelf = saveMySelf;
+    public void setCounterTraderPhone(String counterTraderPhone) {
+        this.counterTraderPhone = counterTraderPhone;
     }
 
-    public String getInBank() {
-        return inBank;
+    public String getAgentTrader() {
+        return agentTrader;
     }
 
-    public void setInBank(String inBank) {
-        this.inBank = inBank;
+    public void setAgentTrader(String agentTrader) {
+        this.agentTrader = agentTrader;
     }
 
-    public String getBranch() {
-        return branch;
+    public String getAgentTraderId() {
+        return agentTraderId;
     }
 
-    public void setBranch(String branch) {
-        this.branch = branch;
+    public void setAgentTraderId(String agentTraderId) {
+        this.agentTraderId = agentTraderId;
+    }
+
+    public String getAgentTraderPhone() {
+        return agentTraderPhone;
+    }
+
+    public void setAgentTraderPhone(String agentTraderPhone) {
+        this.agentTraderPhone = agentTraderPhone;
+    }
+
+    public String getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(String bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    public String getDepositAccount() {
+        return depositAccount;
+    }
+
+    public void setDepositAccount(String depositAccount) {
+        this.depositAccount = depositAccount;
+    }
+
+    public String getWithdrawAccount() {
+        return withdrawAccount;
+    }
+
+    public void setWithdrawAccount(String withdrawAccount) {
+        this.withdrawAccount = withdrawAccount;
+    }
+
+    public String getWithdrawBank() {
+        return withdrawBank;
+    }
+
+    public void setWithdrawBank(String withdrawBank) {
+        this.withdrawBank = withdrawBank;
+    }
+
+    public String getWithdrawBankBranch() {
+        return withdrawBankBranch;
+    }
+
+    public void setWithdrawBankBranch(String withdrawBankBranch) {
+        this.withdrawBankBranch = withdrawBankBranch;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public boolean isIsOwnedBank() {
+        return isOwnedBank;
+    }
+
+    public void setIsOwnedBank(boolean isOwnedBank) {
+        this.isOwnedBank = isOwnedBank;
+    }
+
+    public String getRemitterAccount() {
+        return remitterAccount;
+    }
+
+    public void setRemitterAccount(String remitterAccount) {
+        this.remitterAccount = remitterAccount;
+    }
+
+    public String getPayeeAccount() {
+        return payeeAccount;
+    }
+
+    public void setPayeeAccount(String payeeAccount) {
+        this.payeeAccount = payeeAccount;
     }
 
     public String getPayeeName() {
@@ -174,51 +322,75 @@ public class Atm {
         this.payeeName = payeeName;
     }
 
-    public long getPayeeAccount() {
-        return payeeAccount;
+    public String getPayeeBankId() {
+        return payeeBankId;
     }
 
-    public void setPayeeAccount(long payeeAccount) {
-        this.payeeAccount = payeeAccount;
+    public void setPayeeBankId(String payeeBankId) {
+        this.payeeBankId = payeeBankId;
     }
 
-    public boolean isReplace() {
-        return isReplace;
+    public long getTransactionType() {
+        return transactionType;
     }
 
-    public void setReplace(boolean replace) {
-        isReplace = replace;
+    public void setTransactionType(long transactionType) {
+        this.transactionType = transactionType;
     }
 
-    public String getReplaceName() {
-        return replaceName;
+    public String getRemitterName() {
+        return remitterName;
     }
 
-    public void setReplaceName(String replaceName) {
-        this.replaceName = replaceName;
+    public void setRemitterName(String remitterName) {
+        this.remitterName = remitterName;
     }
 
-    public String getReplaceId() {
-        return replaceId;
+    public String getRemitterIdno() {
+        return remitterIdno;
     }
 
-    public void setReplaceId(String replaceId) {
-        this.replaceId = replaceId;
+    public void setRemitterIdno(String remitterIdno) {
+        this.remitterIdno = remitterIdno;
     }
 
-    public String getReplacePhoneNumber() {
-        return replacePhoneNumber;
+    public String getRemitterPhone() {
+        return remitterPhone;
     }
 
-    public void setReplacePhoneNumber(String replacePhoneNumber) {
-        this.replacePhoneNumber = replacePhoneNumber;
+    public void setRemitterPhone(String remitterPhone) {
+        this.remitterPhone = remitterPhone;
     }
 
-    public Date getCreatTime() {
-        return CreatTime;
+    public boolean isIsAgent() {
+        return isAgent;
     }
 
-    public void setCreatTime(Date creatTime) {
-        CreatTime = creatTime;
+    public void setIsAgent(boolean isAgent) {
+        this.isAgent = isAgent;
+    }
+
+    public String getAgentName() {
+        return agentName;
+    }
+
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
+    }
+
+    public String getAgentIdno() {
+        return agentIdno;
+    }
+
+    public void setAgentIdno(String agentIdno) {
+        this.agentIdno = agentIdno;
+    }
+
+    public String getAgentPhone() {
+        return agentPhone;
+    }
+
+    public void setAgentPhone(String agentPhone) {
+        this.agentPhone = agentPhone;
     }
 }
