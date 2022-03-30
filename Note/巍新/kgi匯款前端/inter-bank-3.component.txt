@@ -3,17 +3,12 @@ import {FormBuilder, FormControl} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {COMPONENT_AIO} from '../@core/shared/routing/aio.path';
 import {RouteUiService} from '../@core/shared/service/route-ui.service';
-import {DIALOG_TYPE, SlideDialogService} from '../@core/shared/service/slide-dialog.service';
+import {SlideDialogService} from '../@core/shared/service/slide-dialog.service';
 import {SpinnerService} from '../@core/shared/service/spinner.service';
 import {ResizeService} from '../@core/shared/service/resize.service';
 import {GlobalDataService} from '../@core/shared/service/global.service';
 import {GenericService} from '../@core/shared/service/generic.service';
 import {InterBankModel} from '../@core/shared/model/inter-bank.model';
-import {GenericDialogComponent} from '../@core/shared/base/dialog/info/generic-dialog.component';
-import {ApplyStartVO} from '../@core/shared/model/apply-start.model';
-import {ResponseVO} from '../@core/shared/model/responseVO';
-import {TradeModel} from '../@core/shared/model/trade.model';
-import {RETURN_CODE} from '../@core/shared/app.constants';
 
 @Component({
     selector: 'app-inter-bank-2-confirm',
@@ -25,7 +20,7 @@ export class InterBank2ConfirmComponent implements OnInit {
     data: InterBankModel;
 
     constructor(protected routingService: RouteUiService,
-                protected myDialogService: SlideDialogService,
+                protected dialogService: SlideDialogService,
                 protected spinnerService: SpinnerService,
                 protected resizeService: ResizeService,
                 protected fb: FormBuilder,
@@ -34,56 +29,31 @@ export class InterBank2ConfirmComponent implements OnInit {
                 protected gd: GlobalDataService,
                 protected genericService: GenericService) {
 
-        console.log('[InterBank2ConfirmComponent] interBankList: ', this.gd.interBankList);
-
-        this.data = this.gd.interBankList;
-
-        console.log('[InterBank2ConfirmComponent] tradeList: ', this.gd.tradeList);
+                this.data = this.gd.interBankList;
+                
+        console.log('確認list: ', this.gd.interBankList);
+        console.log('確認data:', this.data);
     }
 
     ngOnInit() {
-
+        
     }
 
-    public showWarningDialog(data?: any) {
-        let contentComponent: any = GenericDialogComponent;
-
-        const dialog = this.myDialogService.open(contentComponent, {
-            width: '400px',
-            height: '200px',
-            title: '',
-            data: data,
-            style: DIALOG_TYPE.DIALOG
-        });
-
-        //從 dialog 取回資料
-        dialog.afterClosed().subscribe((result) => {
-            console.log('Result data: ', result);
-            this.spinnerService.hide();
-        });
-    }
-
-    saveToAll(data: any) {
-        if(!this.gd.tradeList)
-            this.gd.tradeList = [];
-
-        console.log('[InterBank2ConfirmComponent] saveToAll data: ', data);
-
+    saveToAll(data: any) {  // 裡面都是後來加的
+        if(!this.gd.tradeList) {  // 若沒有tradeList
+            this.gd.tradeList = [];  // 就建一個
+        }
         let tradeList = this.gd.tradeList;
-
-        tradeList.push(...data);
-
-        this.gd.tradeList = tradeList;
-
-        console.log('[InterBank2ConfirmComponent] tradeList: ', this.gd.tradeList);
-
+        tradeList.push(...data);  
+        this.gd.tradeList = tradeList;  // 為何不直接塞進這裡
     }
 
     goMain() {
+        console.log("測試");
         this.saveToAll(this.data);
         this.gd.clearInterBankList();
-
-        this.router.navigate(['/'+COMPONENT_AIO.MAIN]);
+        console.log("匯款: " + this.data);
+        // this.router.navigate(['/'+COMPONENT_AIO.MAIN]);
     }
 
     /**
@@ -91,22 +61,8 @@ export class InterBank2ConfirmComponent implements OnInit {
      */
     goNext() {
         this.saveToAll(this.data);
-
-        //save data to server
-        const tradeList = this.gd.tradeList;
-        const userVO: ApplyStartVO = this.gd.userInfo;
-        this.genericService.apply(tradeList).subscribe((result : ResponseVO<TradeModel>) => {
-            this.gd.clearInterBankList();
-
-            if(result.rtnCode === RETURN_CODE.SUCCESSFUL){
-                this.gd.trade = result.rtnObj;
-                console.log('result: ', this.gd.trade);
-
-                this.router.navigate(['/'+ COMPONENT_AIO.FINISH]);
-            }
-
-        });
-
+        this.gd.clearInterBankList();
+        this.router.navigate(['/'+ COMPONENT_AIO.FINISH]);
     }
 
     goBack() {
