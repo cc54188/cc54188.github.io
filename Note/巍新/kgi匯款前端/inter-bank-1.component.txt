@@ -2,11 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BaseComponent} from '../@core/shared/base/base.component';
-import {RoutingModel} from '../@core/shared/model/routing.model';
 import {RouteUiService} from '../@core/shared/service/route-ui.service';
 import {GlobalDataService} from '../@core/shared/service/global.service';
 import {COMPONENT_AIO} from '../@core/shared/routing/aio.path';
-import {AccountService} from '../@core/shared/service/account.service';
 import {DIALOG_TYPE, SlideDialogService} from '../@core/shared/service/slide-dialog.service';
 import {ResizeService} from '../@core/shared/service/resize.service';
 import {SpinnerService} from '../@core/shared/service/spinner.service';
@@ -15,7 +13,7 @@ import {GenericService} from '../@core/shared/service/generic.service';
 import {ComponentType} from '@angular/cdk/overlay';
 import {VerificationDialogComponent} from '../@core/shared/base/dialog/verification/verification-dialog.component';
 import {InterBankModel} from '../@core/shared/model/inter-bank.model';
-import {TRANSACTION_TYPE} from '../@core/shared/app.constants';
+import {TRANSACTION_TYPE} from "../@core/shared/app.constants";
 
 @Component({
     selector: 'app-inter-bank-1',
@@ -27,20 +25,10 @@ export class InterBank1Component extends BaseComponent<InterBankModel> implement
     baseModel: InterBankModel = new InterBankModel();
 
     // 銀行清單
-    bankList:  Array<{code: string, text: string, branch: Array<{ code: string, text: string}>}> = [
-        {'code': '004', 'text': '台灣銀行', branch: [
-                {'code': '0071', 'text': '館前分行'},
-            ]
-        },
-        {'code': '809', 'text': '凱基銀行', branch: [
-                {'code': '0016', 'text': '建成分行'},
-                {'code': '0267', 'text': '中和分行'},
-            ]
-        },
-    ];
+    bankList = ["中央信託","台灣銀行", "中國信託銀行"];
 
     // 分行清單
-    branchBankList:  Array<{code: string, text: string}> = [];
+    branchBankList = ["台北分行","台中分行", "高雄分行"];
 
     constructor(protected routingService: RouteUiService,
                 protected dialogService: SlideDialogService,
@@ -50,15 +38,15 @@ export class InterBank1Component extends BaseComponent<InterBankModel> implement
                 protected router: Router,
                 protected activatedRoute: ActivatedRoute,
                 protected gd: GlobalDataService,
-                protected accountService: AccountService,
                 protected genericService: GenericService) {
 
         super(activatedRoute, routingService, dialogService, spinnerService, resizeService, router, fb, gd);
 
 
-        console.log('this.gd.interBankList: ', this.gd.interBankList);
+        console.log('建構this.gd.interBankList: ', this.gd.interBankList);
         if(this.gd.interBankList) {
-            this.add(this.gd.interBankList);
+            // this.baseModel = this.gd.interBankList;
+            this.add(this.gd.interBankList); // this.baseModel
         }else{
             this.add();
         }
@@ -66,7 +54,7 @@ export class InterBank1Component extends BaseComponent<InterBankModel> implement
         //init form group (baseModel should not be null)
         this.appendFormValidator(true);
 
-        console.log('IntraBankModel: ', this.baseModel);
+        console.log('第一頁InterBankModel: ', this.baseModel);
     }
 
     ngOnInit() {
@@ -80,12 +68,10 @@ export class InterBank1Component extends BaseComponent<InterBankModel> implement
     }
 
     resetFormControl(): void {
-
         this.disableFormControl(this.getFieldName(this.baseModel).money);
         this.disableFormControl(this.getFieldName(this.baseModel).memo);
 
-        this.disableFormControl(this.getFieldName(this.baseModel).debitType);
-
+        this.disableFormControl(this.getFieldName(this.baseModel).transactionType);
         //此步驟 扣款帳號不需檢查
         this.disableFormControl(this.getFieldName(this.baseModel).remitterAccount);
 
@@ -124,24 +110,14 @@ export class InterBank1Component extends BaseComponent<InterBankModel> implement
         });
     }
 
-    findBranch(event: any) {
-        const code = this.myFormGroup.controls['payeeBankId'].value;
-        console.log('findBranch: ', code);
+    getBankList(): void {  // 晚點做
 
-        this.bankList.forEach((data, index) => {
-            if(data.code === code){
-                console.log(index, " branch:", this.bankList[index].branch);
 
-                //將區域清單放至 UI 下拉list
-                this.branchBankList = [];
-                this.branchBankList.push.apply(this.branchBankList, this.bankList[index].branch);
-
-            }
-        });
     }
 
     // 取得分行資料
     getBranchBankList() {
+
 
     }
 
@@ -155,10 +131,15 @@ export class InterBank1Component extends BaseComponent<InterBankModel> implement
         console.log('add: ', this.myFormGroup.getRawValue())
 
         let interBankModel = new InterBankModel(); //預設有一筆
-        interBankModel.money = undefined;
-        interBankModel.memo = '';
-        interBankModel.transactionType = TRANSACTION_TYPE.INTER_TRANSFER;
 
+        interBankModel.payeeName = '';
+        interBankModel.payeeAccount = '';
+        interBankModel.memo = '';
+        interBankModel.transactionType = TRANSACTION_TYPE.ACCOUNT;
+
+        this.baseModel =  data ? data : interBankModel;  // true就塞data給baseModel，false就塞interBankModel給他
+
+        this.myFormGroup.patchValue(this.baseModel);
         if(data){
             Object.assign(interBankModel, data); //右邊clone到左邊, 但不刪除 model validators method
         }
@@ -166,52 +147,20 @@ export class InterBank1Component extends BaseComponent<InterBankModel> implement
         this.baseModel =  interBankModel;
 
         this.myFormGroup.patchValue(this.baseModel);
+
+        
     }
 
     goNext(){
+        console.log("第一頁myForm: ", this.myFormGroup.getRawValue());
         if (this.myFormGroup.invalid) {
             this.showVerificationDialog(this.findInvalidControls());
             return;
         }
-
-        //save to session storage
         this.gd.interBankList = this.myFormGroup.getRawValue();
-        console.log('save interBankList: ',this.gd.interBankList);
-
         this.router.navigate([COMPONENT_AIO.INTER_BANK_2]);
+        
+        console.log('第一頁this.gd.interBankList: ', this.gd.interBankList);
     }
 
-    /**
-     * 限制 memo 中文(8)/英數字(16) 長度
-     * @param index
-     */
-    calculusLength(index?: number) : number{
-        // console.log('index: ', index);
-
-        const indexNum = index ? index : 0;
-        const value =this.myFormGroup.controls['memo'].value;
-
-        if(value) {
-
-            const chineseReg = /^[\u0391-\uffe5]+$/;
-            const letterReg = /^[0-9a-zA-Z]+$/;
-            // console.log(value + " , length: " + value.length);
-
-            if (chineseReg.test(value)) {
-                // console.log('中文' + value + " , length: " + value.length);
-                return 8;
-            }else if (letterReg.test(value)) {
-                return 16;
-            }else{
-                // console.log('else...');
-                return 8;
-            }
-            return 8;
-        }
-        return 16;
-    }
-
-    test(){
-        console.log(this.myFormGroup.getRawValue())
-    }
 }
