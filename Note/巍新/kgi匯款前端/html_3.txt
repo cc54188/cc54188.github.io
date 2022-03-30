@@ -1,0 +1,47 @@
+<div _ngcontent-xkh-c989="" class="data-board px-default px-md-8 py-md-6 mb-4 mb-md-5">
+<fieldset _ngcontent-xkh-c989="" class="mt-1">
+<div _ngcontent-xkh-c989="" class="form-group row">
+<label _ngcontent-xkh-c989="" class="col-sm-4">收款銀行：</label>
+<div _ngcontent-xkh-c989="" class="col-sm-8"> 0040071 </div>
+</div>
+</fieldset>
+<fieldset _ngcontent-xkh-c989="" class="mt-1">
+<div _ngcontent-xkh-c989="" class="form-group row">
+<label _ngcontent-xkh-c989="" class="col-sm-4">收款人帳號：</label>
+<div _ngcontent-xkh-c989="" class="col-sm-8"> 555555555555 </div>
+</div>
+</fieldset>
+<fieldset _ngcontent-xkh-c989="" class="mt-1">
+<div _ngcontent-xkh-c989="" class="form-group row">
+<label _ngcontent-xkh-c989="" class="col-sm-4">收款人戶名：</label>
+<div _ngcontent-xkh-c989="" class="col-sm-8"> 六小齡童 </div>
+</div>
+</fieldset>
+<fieldset _ngcontent-xkh-c989="" class="mt-1">
+<div _ngcontent-xkh-c989="" class="form-group row">
+<label _ngcontent-xkh-c989="" class="col-sm-4">扣款帳號：</label>
+<div _ngcontent-xkh-c989="" class="col-sm-8"> 555555555555 </div>
+</div>
+</fieldset>
+<fieldset _ngcontent-xkh-c989="" class="mt-1">
+<div _ngcontent-xkh-c989="" class="form-group row">
+<label _ngcontent-xkh-c989="" class="col-sm-4">匯款金額：</label>
+<div _ngcontent-xkh-c989="" class="col-sm-8"> 5000000 </div>
+</div>
+</fieldset>
+<fieldset _ngcontent-xkh-c989="" class="mt-1">
+<div _ngcontent-xkh-c989="" class="form-group row">
+<label _ngcontent-xkh-c989="" class="col-sm-4">匯款手續費：</label>
+<div _ngcontent-xkh-c989="" class="col-sm-8"></div>
+</div>
+</fieldset>
+<fieldset _ngcontent-xkh-c989="" class="mt-1">
+<div _ngcontent-xkh-c989="" class="form-group row">
+<label _ngcontent-xkh-c989="" class="col-sm-4">匯款人姓名、ID、電話：</label>
+<div _ngcontent-xkh-c989="" class="col-sm-8"> 六小齡童、A123123123、0912123123 </div>
+</div>
+</fieldset><!--bindings={"ng-reflect-ng-if": null}-->
+<fieldset _ngcontent-xkh-c989="" class="mt-1">
+<div _ngcontent-xkh-c989="" class="form-group row">
+<label _ngcontent-xkh-c989="" class="col-sm-4">附言：</label>
+<div _ngcontent-xkh-c989="" class="col-sm-8"> 1 </div></div></fieldset></div>
