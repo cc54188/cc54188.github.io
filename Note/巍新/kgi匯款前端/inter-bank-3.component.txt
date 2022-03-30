@@ -53,7 +53,7 @@ export class InterBank2ConfirmComponent implements OnInit {
         this.saveToAll(this.data);
         this.gd.clearInterBankList();
         console.log("匯款: " + this.data);
-        // this.router.navigate(['/'+COMPONENT_AIO.MAIN]);
+        this.router.navigate(['/'+COMPONENT_AIO.MAIN]);
     }
 
     /**
