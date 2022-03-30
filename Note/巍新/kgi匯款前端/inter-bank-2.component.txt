@@ -5,7 +5,6 @@ import {BaseComponent} from '../@core/shared/base/base.component';
 import {RouteUiService} from '../@core/shared/service/route-ui.service';
 import {GlobalDataService} from '../@core/shared/service/global.service';
 import {COMPONENT_AIO} from '../@core/shared/routing/aio.path';
-import {AccountService} from '../@core/shared/service/account.service';
 import {DIALOG_TYPE, SlideDialogService} from '../@core/shared/service/slide-dialog.service';
 import {ResizeService} from '../@core/shared/service/resize.service';
 import {SpinnerService} from '../@core/shared/service/spinner.service';
@@ -14,7 +13,8 @@ import {ComponentType} from '@angular/cdk/overlay';
 import {VerificationDialogComponent} from '../@core/shared/base/dialog/verification/verification-dialog.component';
 import {CustomDialogService} from 'src/app/@core/shared/service/custom-dialog.service';
 import {InterBankModel} from '../@core/shared/model/inter-bank.model';
-import {DEBIT_TYPE} from '../@core/shared/app.constants';
+import {TRANSACTION_TYPE} from '../@core/shared/app.constants';
+import {Observable} from "rxjs/internal/Observable";
 
 @Component({
     selector: 'app-inter-bank-2',
@@ -25,10 +25,11 @@ export class InterBank2Component extends BaseComponent<InterBankModel> implement
 
     baseModel: InterBankModel = new InterBankModel();
 
-    DEBIT_TYPE = DEBIT_TYPE;
+    TRANSACTION_TYPE = TRANSACTION_TYPE;
 
-    debitType: number = DEBIT_TYPE.ACCOUNT;
+    transactionType: number = TRANSACTION_TYPE.ACCOUNT;
 
+    // 有無代理人
     isAgent = false;
 
     constructor(protected routingService: RouteUiService,
@@ -39,28 +40,28 @@ export class InterBank2Component extends BaseComponent<InterBankModel> implement
                 protected router: Router,
                 protected activatedRoute: ActivatedRoute,
                 protected gd: GlobalDataService,
-                protected accountService: AccountService,
                 protected genericService: GenericService,
                 private customDialogService: CustomDialogService) {
 
         super(activatedRoute, routingService, dialogService, spinnerService, resizeService, router, fb, gd);
 
-        console.log('InterBank2Component interBankList: ', this.gd.interBankList);
+        // this.baseModel.transactionType = TRANSACTION_TYPE.ACCOUNT;
 
         if(this.gd.interBankList) {
-            // Object.assign(this.baseModel, this.gd.interBankList); //右邊clone到左邊, 但不刪除 model validators method
             this.add(this.gd.interBankList);
-        }else{
+        } else{
             this.add();
         }
 
         //init form group (baseModel should not be null)
         this.appendFormValidator(true);
+        
 
     }
 
     ngOnInit() {
         super.ngOnInit();
+        this.isByAccount();
     }
 
     // initData(): Observable<Object> {
@@ -69,7 +70,7 @@ export class InterBank2Component extends BaseComponent<InterBankModel> implement
     //     });
     // }
 
-    resetFormControl(): void {
+    resetFormControl(): void {  // 剛進來disable(不檢查)
         // this.disableFormControl(this.getFieldName(this.baseModel).money);
         this.disableFormControl(this.getFieldName(this.baseModel).memo);
 
@@ -79,11 +80,11 @@ export class InterBank2Component extends BaseComponent<InterBankModel> implement
         //收款戶名
         this.disableFormControl(this.getFieldName(this.baseModel).payeeName);
 
-        //匯款人資訊
+        // 匯款人資訊
         // this.disableFormControl(this.getFieldName(this.baseModel).remitterName);
         // this.disableFormControl(this.getFieldName(this.baseModel).remitterIdno);
         // this.disableFormControl(this.getFieldName(this.baseModel).remitterPhone);
-
+        //this.disableFormControl(this.getFieldName(this.baseModel).remitterAccount);
         //代理人資訊
         this.disableFormControl(this.getFieldName(this.baseModel).agentName);
         this.disableFormControl(this.getFieldName(this.baseModel).agentIdno);
@@ -91,15 +92,15 @@ export class InterBank2Component extends BaseComponent<InterBankModel> implement
     }
 
     clearAndUpdateRelated(value: any) {
-        this.debitType = value;
+        this.transactionType = value;
         // this.clear();
         console.log('clear origin data...');
-        console.log('debitType: ', this.debitType);
+        console.log('transactionType: ', this.transactionType);
 
         //更新匯款方式
-        this.updateFormControlValue(this.getFieldName(this.baseModel).debitType, this.debitType);
+        this.updateFormControlValue(this.getFieldName(this.baseModel).transactionType, this.transactionType);
 
-        if(this.debitType === DEBIT_TYPE.ACCOUNT){
+        if(this.transactionType === TRANSACTION_TYPE.ACCOUNT){
             this.enableFormControl(this.getFieldName(this.baseModel).remitterAccount);
         }else{
             //選擇現金扣款不需填扣款帳號
@@ -129,7 +130,7 @@ export class InterBank2Component extends BaseComponent<InterBankModel> implement
             this.disableFormControl(this.getFieldName(this.baseModel).agentIdno);
             this.disableFormControl(this.getFieldName(this.baseModel).agentPhone);
         }
-        console.log('updateAgentInfo: ', value);
+        console.log('刷新代理人: ', value);
     }
 
     public showVerificationDialog<T>(data: any, component?: ComponentType<T>) {
@@ -156,19 +157,18 @@ export class InterBank2Component extends BaseComponent<InterBankModel> implement
 
     //存摺扣款
     isByAccount() : boolean {
-        return (this.getFormControlValue(this.getFieldName(this.baseModel).debitType) === DEBIT_TYPE.ACCOUNT);
+        return (this.getFormControlValue(this.getFieldName(this.baseModel).transactionType) === TRANSACTION_TYPE.ACCOUNT);
     }
 
     goNext(): void {
+        console.log('第二夜FG: ', this.myFormGroup.getRawValue().money);
         if (this.myFormGroup.invalid) {
             this.showVerificationDialog(this.findInvalidControls());
             return;
         }
-
-        //save to session storage
         this.gd.interBankList = this.myFormGroup.getRawValue();
-        console.log('save interBankList: ',this.gd.interBankList);
 
+        console.log('第二頁list', this.gd.interBankList);
         this.router.navigate([COMPONENT_AIO.INTER_BANK_CONFIRM]);
     }
 
@@ -178,7 +178,7 @@ export class InterBank2Component extends BaseComponent<InterBankModel> implement
         this.add();
     }
 
-    add(data ?: InterBankModel){
+    add(data ?: InterBankModel){  // 類別改成這樣
         console.log('before add: ', this.myFormGroup.getRawValue())
 
         let interBankModel = new InterBankModel(); //預設有一筆
@@ -186,7 +186,7 @@ export class InterBank2Component extends BaseComponent<InterBankModel> implement
         interBankModel.remitterAccount = '';
         interBankModel.money = undefined;
         interBankModel.memo = 'gg';
-        interBankModel.debitType = DEBIT_TYPE.ACCOUNT;
+        // interBankModel.transactionType = TRANSACTION_TYPE.ACCOUNT;
 
         if(data){
             Object.assign(interBankModel, data); //右邊clone到左邊, 但不刪除 model validators method
@@ -196,13 +196,6 @@ export class InterBank2Component extends BaseComponent<InterBankModel> implement
 
         console.log('add: ', this.baseModel);
         this.myFormGroup.patchValue(this.baseModel);
-    }
-
-    test(){
-        if (this.myFormGroup.invalid) {
-            this.showVerificationDialog(this.findInvalidControls());
-        }
-        console.log(this.myFormGroup.getRawValue())
     }
 
 }
