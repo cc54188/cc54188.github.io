@@ -34,8 +34,7 @@ export class MyListComponent implements OnInit {
   }
 
   getList(): void {
-    const body = {"idno": this.gd.idno};
-    this.httpClient.post('atm/getByIdno', body).subscribe((res: any) =>{
+    this.httpClient.post('atm/getByIdno', this.gd.idno).subscribe((res: any) =>{
       this.tradeList = res;
     })
   }
