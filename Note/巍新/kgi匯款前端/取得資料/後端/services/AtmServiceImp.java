@@ -17,7 +17,7 @@ public class AtmServiceImp implements AtmService{
     private AtmRepository atmRepository;
 
 
-    // 用名字取出各項交易
+    // 用身分證字號取出各項交易
     @Override
     public List<Atm> getByIdno(String idno) {
         System.out.println("!!!~~~????");
