@@ -40,6 +40,7 @@ public class Shortcut {
     }
 
     public String getShortUrl() {
+        System.out.println("資料內: " + shortUrl);
         return shortUrl;
     }
 
