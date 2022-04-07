@@ -12,15 +12,17 @@ public class ShortcutController {
     private ShortcutService shortcutService;
 //    @RequestParam
     @PostMapping("/shortcut/add")
-    public ResponseEntity<String> createUrl(@RequestBody String longUrl) {
-        System.out.println(longUrl.length());
+    public ResponseEntity<Shortcut> createUrl(@RequestBody String longUrl) {
+        System.out.println("長網址長度:" + longUrl.length());
         try {
             if (longUrl.length() <= 8) {
-                return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<Shortcut>(HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<String>(shortcutService.createUrl(longUrl), HttpStatus.OK);
+            Shortcut shortcut = shortcutService.createUrl(longUrl);
+            System.out.println("回傳: " + shortcut);
+            return new ResponseEntity<Shortcut>(shortcut, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Shortcut>(HttpStatus.NOT_FOUND);
         }
     }
 

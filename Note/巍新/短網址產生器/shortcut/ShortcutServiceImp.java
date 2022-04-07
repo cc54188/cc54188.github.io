@@ -24,11 +24,11 @@ public class ShortcutServiceImp implements ShortcutService{
 
     // 傳入長，產生短，並回傳
     @Override
-    public String createUrl(String longUrl) {
+    public Shortcut createUrl(String longUrl) {
         List<Shortcut> shortcutList = shortcutRepository.findAll();
         for (int i = 0; i < shortcutList.size(); i++) {  // 已產生過短網址，就直接回傳
             if(shortcutList.get(i).getLongUrl().equals(longUrl)) {
-                return "已有短網址: " + shortcutList.get(i).getShortUrl();
+                return shortcutList.get(i);  // 記得跟大家講
             }
         }
         String url = "";  // 預設短網址為空字串
@@ -46,8 +46,9 @@ public class ShortcutServiceImp implements ShortcutService{
                 }
             }
         }
-        shortcutRepository.save(new Shortcut(longUrl, url));
-        return url;
+        Shortcut shortcut = new Shortcut(longUrl, url);
+        shortcutRepository.save(shortcut);
+        return shortcut;
     }
 
     // 傳入短，回傳長
