@@ -48,10 +48,10 @@ public class ShortcutController {
         return shortcutService.getAll();
     }
 
-    @GetMapping("/redirect")
-    public RedirectView newLink() {
-        System.out.println("後端: ");
-//        String longUrl = shortcutService.getByShortUrl(shortUrl).getLongUrl();
-        return new RedirectView("https://www.youtube.com/");
+    @GetMapping("/link/{shortUrl}")  // 執行後，直接在網址打"localhost:8080/link/短網址"，即可連到網頁
+    public RedirectView newLink(@PathVariable(value = "shortUrl") String shortUrl) {
+        System.out.println("後端: " + shortUrl);
+        String longUrl = shortcutService.getByShortUrl(shortUrl).getLongUrl();
+        return new RedirectView(longUrl);
     }
 }
